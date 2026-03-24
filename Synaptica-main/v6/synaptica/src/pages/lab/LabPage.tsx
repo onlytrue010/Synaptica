@@ -282,7 +282,7 @@ function GradientDescentLab() {
           </label>
         </div>
       </div>
-      <canvas ref={canvasRef} style={{ width: '100%', height: 280, display: 'block' }} />
+      <canvas ref={canvasRef} style={{ width: '100%', height: 400, display: 'block' }} />
       <div className="px-5 py-3 border-t flex items-center gap-2 flex-wrap" style={{ borderColor: 'var(--color-border)' }}>
         <button onClick={resetGD} className="text-xs px-3 py-1.5 rounded-lg border hover:bg-[var(--color-surface-2)] transition-colors" style={{ borderColor: 'var(--color-border-2)', color: 'var(--color-text-2)' }}>Reset</button>
         <button onClick={doStep} className="text-xs px-4 py-1.5 rounded-lg font-medium" style={{ background: 'var(--color-amber)', color: '#080808' }}>Step</button>
@@ -433,7 +433,7 @@ function PerceptronLab() {
           ))}
         </div>
       </div>
-      <canvas ref={canvasRef} onClick={handleClick} style={{ width: '100%', height: 280, cursor: 'crosshair', display: 'block' }} />
+      <canvas ref={canvasRef} onClick={handleClick} style={{ width: '100%', height: 330, cursor: 'crosshair', display: 'block' }} />
       <div className="px-5 py-3 border-t flex items-center gap-2 flex-wrap" style={{ borderColor: 'var(--color-border)' }}>
         <button onClick={() => { ptsRef.current = []; draw() }} className="text-xs px-3 py-1.5 rounded-lg border hover:bg-[var(--color-surface-2)] transition-colors" style={{ borderColor: 'var(--color-border-2)', color: 'var(--color-text-2)' }}>Clear</button>
         <button onClick={autoLearn} className="text-xs px-4 py-1.5 rounded-lg font-medium" style={{ background: 'var(--color-amber)', color: '#080808' }}>Learn step</button>
@@ -586,7 +586,7 @@ function NeuralNetBuilder() {
           ))}
         </div>
       </div>
-      <canvas ref={canvasRef} style={{ width: '100%', height: 260, display: 'block' }} />
+      <canvas ref={canvasRef} style={{ width: '100%', height: 300, display: 'block' }} />
       <div className="px-5 py-3 border-t flex items-center gap-4 text-xs font-mono flex-wrap" style={{ borderColor: 'var(--color-border)', color: 'var(--color-text-3)' }}>
         <span>Layers: <span style={{ color: 'var(--color-amber)' }}>{layers.length}</span></span>
         <span>Architecture: <span style={{ color: 'var(--color-amber)' }}>{layers.join('→')}</span></span>
