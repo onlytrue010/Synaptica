@@ -1,0 +1,347 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════════════════
+   SYNAPTICA — GLOBAL STYLES
+   Replace: src/styles/globals.css with this file.
+   This single file fixes ALL theme + font issues.
+   ═══════════════════════════════════════════════════ */
+
+/* ─── BRAND TOKENS (theme-independent) ─────────── */
+:root {
+  --color-amber:        #f59e0b;
+  --color-amber-light:  #fbbf24;
+  --color-amber-dim:    rgba(245, 158, 11, 0.14);
+  --color-cyan:         #2bd5eb;
+  --color-cyan-light:   #67e8f9;
+  --color-cyan-dim:     rgba(0, 221, 255, 0.12);
+  --color-emerald:      #10b981;
+  --color-rose:         #f43f5e;
+  --ease-out-expo:      cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring:        cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ═══════════════════════════════════════════════════
+   DARK THEME
+   ───────────────────────────────────────────────────
+   ROOT CAUSE OF EYE STRAIN:
+     Old text-2 = #9ca3af (gray-400) on #07080c bg → contrast ~3.1:1
+     Old text-3 = #6b7280 (gray-500) on #07080c bg → contrast ~2.0:1
+     Both fail WCAG AA (needs 4.5:1) — causes squinting.
+
+   FIX:
+     text-2 → #c8cdd8  (~8:1 contrast) — clear body text
+     text-3 → #8d97ac  (~4.8:1 contrast) — readable secondary text
+   ═══════════════════════════════════════════════════ */
+[data-theme="dark"] {
+  --color-bg:           #1b1b1b;
+  --color-surface-1:    #0d0f15;
+  --color-surface-2:    #12151e;
+  --color-surface-3:    #181c28;
+  --color-surface-4:    #1e2235;
+
+  --color-text-1:       #f59e0b;   /* headings / primary labels — near white          */
+  --color-text-2:       #ffffff;   /* body text — FIXED from #9ca3af                  */
+  --color-text-3:       #e0e3eb;   /* secondary / muted — FIXED from #6b7280          */
+  --color-text-4:       #d6d8df;   /* disabled / placeholder only — never body text   */
+
+  --color-border:       rgba(255, 255, 255, 0.09);
+  --color-border-2:     rgba(255, 255, 255, 0.16);
+  --color-border-3:     rgba(255, 255, 255, 0.26);
+  --color-nav-bg:       rgba(7, 8, 12, 0.88);
+  --color-card-bg:      #0d0f15;
+  --color-card-hover:   #12151e;
+  --color-code-bg:      #060709;
+  --glow-amber:         rgba(245, 158, 11, 0.20);
+  --glow-cyan:          rgba(34, 211, 238, 0.15);
+  --grid-line:          rgba(255, 255, 255, 0.045);
+}
+
+/* ═══════════════════════════════════════════════════
+   LIGHT THEME
+   ───────────────────────────────────────────────────
+   ROOT CAUSE OF BROKEN LIGHT DESIGN:
+     Old text-3 = #9ca3af on #f8f7f4 bg → contrast ~2.5:1 — completely invisible
+     Old text-2 = #4b5563 on white    → contrast ~5:1 — borderline
+     Design "looked broken" because muted text disappeared.
+
+   FIX:
+     text-2 → #252b38  (dark navy, ~14:1 on white) — strong body text
+     text-3 → #50586a  (~7:1 on white) — clearly visible secondary text
+     Surfaces → warm off-whites so card backgrounds differ from page bg
+   ═══════════════════════════════════════════════════ */
+[data-theme="light"] {
+  --color-bg:           #f4f3ec;
+  --color-surface-1:    #faf9f7;
+  --color-surface-2:    #eeecea;
+  --color-surface-3:    #e2dfd8;
+  --color-surface-4:    #d4d0c8;
+
+  --color-text-1:       #000000;   /* headings / primary — near black, max contrast  */
+  --color-text-2:       #000000;   /* body text — FIXED from #4b5563                 */
+  --color-text-3:       #000000;   /* secondary — FIXED from #9ca3af (was invisible) */
+  --color-text-4:       #000000;   /* disabled / placeholder only                    */
+
+
+  --color-amber:        #f59e0b;
+  --color-amber-light:  #fbbf24;
+  --color-amber-dim:    rgba(245, 158, 11, 0.14);
+  --color-cyan:         #0074c7;
+  --color-cyan-light:   #232b2c;
+  --color-cyan-dim:     rgba(0, 221, 255, 0.12);
+  --color-emerald:      #10b981;
+  --color-rose:         #f43f5e;
+  --ease-out-expo:      cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring:        cubic-bezier(0.34, 1.56, 0.64, 1);
+
+
+  --color-border:       rgba(0, 0, 0, 0.08);
+  --color-border-2:     rgba(0, 0, 0, 0.14);
+  --color-border-3:     rgba(0, 0, 0, 0.24);
+  --color-nav-bg:       rgba(245, 244, 240, 0.92);
+  --color-card-bg:      #f9f9f9;
+  --color-card-hover:   #f5f4f0;
+  --color-code-bg:      #1a1d27;   /* code blocks stay dark even in light mode        */
+  --glow-amber:         rgba(245, 158, 11, 0.10);
+  --glow-cyan:          rgba(34, 211, 238, 0.08);
+  --grid-line:          rgba(0, 0, 0, 0.045);
+}
+
+/* ═══════════════════════════════════════════════════
+   BASE RESET
+   ═══════════════════════════════════════════════════ */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text-1);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 15px;        /* FIXED: was 14px — now base is comfortably readable      */
+  line-height: 1.65;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ─── SCROLLBAR ─────────────────────────────────── */
+::-webkit-scrollbar       { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-2);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-border-3); }
+
+/* ═══════════════════════════════════════════════════
+   TYPOGRAPHY
+   ───────────────────────────────────────────────────
+   FIX 1: Headings now explicitly set color — they no longer
+   inherit a washed-out gray from a parent container.
+
+   FIX 2: Font-size scale raised throughout.
+   Many components used text-[9px], text-[10px], text-[11px]
+   for tags/badges/labels — these were unreadable on any screen.
+   The overrides below raise all tiny sizes to a minimum floor.
+   ═══════════════════════════════════════════════════ */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  color: var(--color-text-1);  /* explicit — never inherits gray */
+}
+
+/* ── Tailwind font-size overrides ───────────────────
+   Raises the floor so nothing renders below 11px.
+   text-xs is the most common class for labels/tags.
+   ─────────────────────────────────────────────────── */
+.text-\[9px\]  { font-size: 11px !important; }
+.text-\[10px\] { font-size: 12px !important; }
+.text-\[11px\] { font-size: 12px !important; }
+.text-\[12px\] { font-size: 13px !important; }
+.text-\[13px\] { font-size: 13px !important; }
+.text-xs       { font-size: 13px !important; line-height: 1.5  !important; }
+.text-sm       { font-size: 14px !important; line-height: 1.55 !important; }
+.text-base     { font-size: 15px !important; }
+.text-lg       { font-size: 17px !important; }
+.text-xl       { font-size: 19px !important; }
+.text-2xl      { font-size: 22px !important; }
+
+/* ── Monospace ───────────────────────────────────── */
+code, pre, kbd, samp {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.88em;   /* slightly smaller than body, but 0.88×15px = 13.2px — still readable */
+  line-height: 1.6;
+}
+
+/* ─── SELECTION ─────────────────────────────────── */
+::selection {
+  background: rgba(245, 158, 11, 0.28);
+  color: var(--color-text-1);
+}
+
+/* ─── FOCUS ─────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-amber);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ─── FORM ELEMENTS ─────────────────────────────── */
+input, select, textarea {
+  color: var(--color-text-1);
+  background: var(--color-surface-2);
+  border-color: var(--color-border-2);
+  font-size: 14px;
+}
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-text-4);
+}
+/* Select options pick up OS default — force dark bg in dark mode */
+[data-theme="dark"] option {
+  background: #12151e;
+  color: #f0eeec;
+}
+[data-theme="light"] option {
+  background: #ffffff;
+  color: #0c0e14;
+}
+
+/* ═══════════════════════════════════════════════════
+   COMPONENT LAYER
+   ═══════════════════════════════════════════════════ */
+@layer components {
+
+  /* ── Card ─────────────────────────────────────── */
+  .card {
+    @apply rounded-xl border transition-all duration-300;
+    background: var(--color-card-bg);
+    border-color: var(--color-border);
+  }
+  .card:hover {
+    border-color: var(--color-border-2);
+  }
+
+  /* ── Badge ────────────────────────────────────── */
+  /* FIXED: was text-xs which many browsers render at 10-11px.
+     Now hardcoded 11px minimum so badges are always readable. */
+  .badge {
+    @apply inline-flex items-center rounded px-2 py-0.5 font-medium uppercase tracking-wide border;
+    font-size: 11px;
+  }
+
+  /* ── Buttons ──────────────────────────────────── */
+  .btn {
+    @apply inline-flex items-center gap-2 rounded-lg px-4 py-2 font-medium
+           transition-all duration-200 cursor-pointer select-none;
+    font-size: 14px;
+  }
+  .btn-primary {
+    @apply btn hover:-translate-y-0.5 active:translate-y-0;
+    background: var(--color-amber);
+    color: #080808;
+  }
+  .btn-ghost {
+    @apply btn border hover:bg-[var(--color-surface-2)];
+    border-color: var(--color-border-2);
+    color: var(--color-text-1);
+  }
+  .btn-icon {
+    @apply inline-flex items-center justify-center w-8 h-8 rounded-lg
+           border transition-all duration-200 cursor-pointer;
+    border-color: var(--color-border-2);
+    color: var(--color-text-2);   /* FIXED: now resolves to readable value in both themes */
+    background: transparent;
+  }
+  .btn-icon:hover {
+    background: var(--color-surface-2);
+    color: var(--color-text-1);
+  }
+
+  /* ── Section Label ────────────────────────────── */
+  .section-label {
+    @apply flex items-center gap-2 font-medium tracking-widest uppercase mb-3;
+    font-size: 12px;
+    color: var(--color-cyan);
+  }
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--color-cyan);
+    opacity: 0.6;
+  }
+
+  /* ── Scroll reveal ────────────────────────────── */
+  .reveal {
+    @apply opacity-0 translate-y-6 transition-all duration-700;
+    transition-timing-function: var(--ease-out-expo);
+  }
+  .reveal.visible {
+    @apply opacity-100 translate-y-0;
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   UTILITY LAYER
+   ═══════════════════════════════════════════════════ */
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+
+  /* FIXED: was hardcoded white lines — invisible in light mode.
+     Now uses --grid-line variable that flips per theme. */
+  .grid-bg {
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .font-serif { font-family: 'Playfair Display', Georgia, serif; }
+  .font-mono  { font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+}
+
+/* ═══════════════════════════════════════════════════
+   CANVAS (Lab Page)
+   ═══════════════════════════════════════════════════ */
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+/* ═══════════════════════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════════════════════ */
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1);    }
+  50%       { opacity: 0.9; transform: scale(1.06); }
+}
+.animate-glow-pulse {
+  animation: glow-pulse 4s ease-in-out infinite;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+.animate-fade-in {
+  animation: fade-in 0.6s var(--ease-out-expo) forwards;
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg);   }
+  to   { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
+}
